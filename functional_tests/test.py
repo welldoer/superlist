@@ -1,14 +1,15 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
   def setUp(self):
     self.browser = webdriver.Firefox()
     self.browser.implicitly_wait(3)
 
   def tearDown(self):
+    self.browser.refresh()
     self.browser.quit()
 
   def check_for_row_in_list_table(self, row_text):
@@ -44,6 +45,7 @@ class NewVisitorTest(LiveServerTestCase):
     self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
     self.check_for_row_in_list_table('1: Buy peacock feathers')
 
+    self.browser.refresh()
     self.browser.quit()
     self.browser = webdriver.Firefox()
 
